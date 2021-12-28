@@ -40,7 +40,7 @@ namespace WebApplication.Controllers
             ValidationResult result = categoryValidator.Validate(p);
             if (result.IsValid)
             {
-                cm.CategoryAddBL(p);
+                cm.CategoryAdd(p);
                 return RedirectToAction("GetCategoryList");
             }
             else
