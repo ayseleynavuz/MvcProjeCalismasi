@@ -30,6 +30,9 @@ namespace EntityLayer.concrete
         [StringLength(200)]
         public string WriterPassword { get; set; }
 
+        [StringLength(50)]
+        public string WriterTitle { get; set; }
+
 
         //başlık hangi yazar tarafından oluşturuldu
         //yazar bir tarafında,başlıklar işin çok tarafında olacaktır-bire çok ilişki

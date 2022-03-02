@@ -16,6 +16,7 @@ namespace WebApplication.Controllers
     {
         // GET: Writer
         WriterManager wm = new WriterManager(new EfWriterDal());
+        WriterValidator writerValidator = new WriterValidator();
         public ActionResult Index()
         {
             var WriterValues = wm.Getlist();
@@ -30,11 +31,37 @@ namespace WebApplication.Controllers
         [HttpPost]
         public ActionResult AddWriter(Writer p)
         {
-            WriterValidator writerValidator = new WriterValidator();
+            
             ValidationResult results = writerValidator.Validate(p);
             if (results.IsValid) //eğer sonuçlar geçerliyse
             {
                 wm.WriterAdd(p);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var item in results.Errors)
+                {
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult EditWriter(int id)
+        {
+            var writerValue = wm.GetById(id);
+            return View(writerValue);
+        }
+
+        [HttpPost]
+        public ActionResult EditWriter(Writer p)
+        {
+            ValidationResult results = writerValidator.Validate(p);
+            if (results.IsValid) //eğer sonuçlar geçerliyse
+            {
+                wm.WriterUpdate(p);
                 return RedirectToAction("Index");
             }
             else
